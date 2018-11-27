@@ -1,14 +1,14 @@
 from flask import Flask, make_response
-from datetime import datetime
+from model import Model
+
 app = Flask(__name__)
 
 
-model = None
-trained = 'None'
+model = Model()
 
 @app.route('/')
 def homepage():
-    the_time = datetime.now().strftime("%A, %d %b %Y %l:%M %p")
+    global model
 
     return """
     <h1>Sentiment Decider</h1>
@@ -22,10 +22,12 @@ def homepage():
     <form method="get" action="/test">
         <button type="submit">Test Current Model</button>
     </form>
-    """.format(trained=trained)
+    """.format(trained=model.trained)
 
 @app.route('/trainw2v')
 def train_w2v():
+    global model
+    model.train_w2v()
     return """
         <h1>Trained Word 2 Vec</h1>
         <form method="get" action="/test">
@@ -38,6 +40,8 @@ def train_w2v():
 
 @app.route('/trainonehot')
 def train_onehot():
+    global model
+    model.train_onehot()
     return """
         <h1>Trained One-Hot</h1>
         <form method="get" action="/test">
@@ -50,15 +54,22 @@ def train_onehot():
 
 @app.route('/test')
 def test():
-    if model is None:
+    global model
+    if model.model is None:
         return make_response("""
             <h1>Model Not Trained</h1>
             <p>Please Train a Model</p>
             <form method="get" action="/">
                 <button type="submit">Go Home</button>
             </form>
-            """, 400)        
-    pass
+            """, 400)
+    score = model.test()
+    return """
+    <h1>Test Results</h1>
+    <p>Model: {trained}</p>
+    <p>Score: {score}</p>
+    """.format(trained=model.trained, score=score)
+
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
