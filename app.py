@@ -22,7 +22,7 @@ def homepage():
     <form method="get" action="/trainonehot">
         <button type="submit">Train One-Hot</button>
     </form>
-    """.format(trained=model.trained)
+    """.format(trained=session['model'].trained)
 
 @app.route('/trainw2v')
 def train_w2v():
@@ -77,7 +77,7 @@ def test():
     <form method="get" action="/">
         <button type="submit">Restart</button>
     </form>
-    """.format(trained=model.trained, score=score)
+    """.format(trained=session['model'].trained, score=score)
 
 @app.after_request
 def add_header(r):
