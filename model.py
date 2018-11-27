@@ -63,10 +63,10 @@ class Model():
         axis.plot(x, y, color='darkorange',
                  lw=lw, label='ROC curve (area = %0.2f)' % my_auc)
         axis.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
-        plt.xlim([0.0, 1.0])
-        plt.ylim([0.0, 1.05])
-        plt.xlabel('False Positive Rate')
-        plt.ylabel('True Positive Rate')
-        plt.title('Receiver operating characteristic')
-        plt.legend(loc="lower right")
+        axis.set_xlim([0.0, 1.0])
+        axis.set_ylim([0.0, 1.05])
+        axis.set_xlabel('False Positive Rate')
+        axis.set_ylabel('True Positive Rate')
+        axis.set_title('Receiver operating characteristic')
+        axis.legend(loc="lower right")
         return fig
