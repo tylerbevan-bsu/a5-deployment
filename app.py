@@ -63,7 +63,7 @@ def test():
                 <button type="submit">Go Home</button>
             </form>
             """, 400)
-    score = model.test()
+    score = model.test_model()
     return """
     <h1>Test Results</h1>
     <p>Model: {trained}</p>
