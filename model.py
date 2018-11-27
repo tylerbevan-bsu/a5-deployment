@@ -3,6 +3,8 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn import linear_model
 from sklearn.metrics import *
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 class Model():
     def __init__(self):
@@ -48,3 +50,21 @@ class Model():
     
     def test_model(self):
         return accuracy_score(self.model.predict(self.testX), self.testy)
+
+    def plot_roc(self):
+        x, y, _ = roc_curve(self.testy, self.model.predict(self.testX))
+        my_auc = auc(x, y)
+        output = io.BytesIO()
+        fig = plt.figure()
+        lw = 2
+        plt.plot(x, y, color='darkorange',
+                 lw=lw, label='ROC curve (area = %0.2f)' % my_auc)
+        plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+        plt.xlim([0.0, 1.0])
+        plt.ylim([0.0, 1.05])
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.title('Receiver operating characteristic')
+        plt.legend(loc="lower right")
+        FigureCanvas(fig).print_png(output)
+        return output

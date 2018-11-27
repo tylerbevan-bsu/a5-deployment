@@ -1,4 +1,4 @@
-from flask import Flask, make_response
+from flask import Flask, make_response, Response
 from model import Model
 
 app = Flask(__name__)
@@ -68,6 +68,7 @@ def test():
     <h1>Test Results</h1>
     <p>Model: {trained}</p>
     <p>Score: {score}</p>
+    <img src='/plot.png' alt='Plot'>
     <form method="get" action="/">
         <button type="submit">Go Home</button>
     </form>
@@ -79,6 +80,10 @@ def add_header(r):
     r.headers["Pragma"] = "no-cache"
     r.headers["Expires"] = "0"
     return r
+
+@app.route('/plot.png')
+def make_plot():
+    return Response(model.plot_roc(), mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
