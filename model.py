@@ -10,6 +10,8 @@ class Model():
         data['polarity'] = data['polarity'].map(lambda x: 0 if x == 0 else 1)
         self.train = data[:5000]
         self.test = data[5000:]
+        self.vectorizer = CountVectorizer(token_pattern="\\w+", lowercase=True)
+        self.vectorizer.fit(data.tweet.values)
         data = None
         self.trained = 'None'
         self.model = None
@@ -36,11 +38,9 @@ class Model():
         self.trained = 'Word 2 Vec'
         
     def train_onehot(self):
-        vectorizer = CountVectorizer(token_pattern="\\w+", lowercase=True)
-        vectorizer.fit(data.tweet.values)
-        self.trainX = vectorizer.transform(self.train.tweet.values)
+        self.trainX = self.vectorizer.transform(self.train.tweet.values)
         self.trainy = self.train.polarity.values
-        self.testX = vectorizer.transform(self.test.tweet.values)
+        self.testX = self.vectorizer.transform(self.test.tweet.values)
         self.testy = self.test.polarity.values
         self.model = linear_model.LogisticRegression(penalty='l2', solver='lbfgs', max_iter=1000)
         self.model.fit(self.trainX, self.trainy)
