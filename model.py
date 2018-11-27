@@ -4,8 +4,11 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn import linear_model
 from sklearn.metrics import *
+import matplotlib
+matplotlib.use('agg')
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
 
 class Model():
     def __init__(self):
@@ -56,7 +59,7 @@ class Model():
         x, y, _ = roc_curve(self.testy, self.model.predict(self.testX))
         my_auc = auc(x, y)
         output = io.BytesIO()
-        fig = plt.figure()
+        fig = Figure()
         lw = 2
         plt.plot(x, y, color='darkorange',
                  lw=lw, label='ROC curve (area = %0.2f)' % my_auc)
