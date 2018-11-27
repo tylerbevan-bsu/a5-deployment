@@ -1,10 +1,13 @@
 from flask import Flask, make_response, Response, session
 from flask_session import Session
 from model import Model
+import io
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 app = Flask(__name__)
 
 SESSION_TYPE = 'filesystem'
+SESSION_PERMANENT = False
 app.config.from_object(__name__)
 Session(app)
 
@@ -89,7 +92,10 @@ def add_header(r):
 
 @app.route('/plot.png')
 def make_plot():
-    return Response(session['model'].plot_roc(), mimetype='image/png')
+    output = io.BytesIO()
+    fig = session['model'].plot_roc()
+    FigureCanvas(fig).print_png(output)
+    return Response(output, mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)

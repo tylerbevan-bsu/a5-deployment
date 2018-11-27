@@ -71,4 +71,4 @@ class Model():
         plt.title('Receiver operating characteristic')
         plt.legend(loc="lower right")
         FigureCanvas(fig).print_png(output)
-        return output
+        return fig
