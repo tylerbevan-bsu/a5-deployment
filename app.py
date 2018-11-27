@@ -1,12 +1,11 @@
-from flask import Flask, make_response, Response
-from flask_session import Session
+from flask import Flask, make_response, Response, session, Session
 from model import Model
 
 app = Flask(__name__)
 
-SESSION_TYPE = 'filesystem'
-app.config.from_object(__name__)
-Session(app)
+#SESSION_TYPE = 'filesystem'
+#app.config.from_object(__name__)
+#Session(app)
 
 @app.route('/')
 def homepage():
