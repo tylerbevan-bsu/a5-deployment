@@ -7,6 +7,8 @@ app = Flask(__name__)
 #app.config.from_object(__name__)
 #Session(app)
 
+app.secret_key = 'Some super secret string that nobody should ever know'
+
 @app.route('/')
 def homepage():
     session['model'] = Model()
