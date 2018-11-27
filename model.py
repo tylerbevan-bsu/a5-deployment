@@ -7,7 +7,6 @@ from sklearn.metrics import *
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 class Model():
@@ -58,7 +57,6 @@ class Model():
     def plot_roc(self):
         x, y, _ = roc_curve(self.testy, self.model.predict(self.testX))
         my_auc = auc(x, y)
-        output = io.BytesIO()
         fig = Figure()
         lw = 2
         plt.plot(x, y, color='darkorange',
@@ -70,5 +68,4 @@ class Model():
         plt.ylabel('True Positive Rate')
         plt.title('Receiver operating characteristic')
         plt.legend(loc="lower right")
-        FigureCanvas(fig).print_png(output)
         return fig
