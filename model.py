@@ -58,10 +58,11 @@ class Model():
         x, y, _ = roc_curve(self.testy, self.model.predict(self.testX))
         my_auc = auc(x, y)
         fig = Figure()
+        axis = fig.add_subplot(1, 1, 1)
         lw = 2
-        plt.plot(x, y, color='darkorange',
+        axis.plot(x, y, color='darkorange',
                  lw=lw, label='ROC curve (area = %0.2f)' % my_auc)
-        plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+        axis.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
         plt.xlim([0.0, 1.0])
         plt.ylim([0.0, 1.05])
         plt.xlabel('False Positive Rate')
