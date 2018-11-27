@@ -44,7 +44,7 @@ class Model():
         self.testy = self.test.polarity.values
         self.model = linear_model.LogisticRegression(penalty='l2', solver='lbfgs', max_iter=1000)
         self.model.fit(self.trainX, self.trainy)
-        self.trained = 'Word 2 Vec'
+        self.trained = 'One-Hot'
     
     def test_model(self):
         return accuracy_score(self.model.predict(self.testX), self.testy)
