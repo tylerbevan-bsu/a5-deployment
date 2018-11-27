@@ -68,8 +68,17 @@ def test():
     <h1>Test Results</h1>
     <p>Model: {trained}</p>
     <p>Score: {score}</p>
+    <form method="get" action="/">
+        <button type="submit">Go Home</button>
+    </form>
     """.format(trained=model.trained, score=score)
 
+@app.after_request
+def add_header(r):
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    return r
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
