@@ -95,7 +95,7 @@ def make_plot():
     output = io.BytesIO()
     fig = session['model'].plot_roc()
     FigureCanvas(fig).print_png(output)
-    return Response(output, mimetype='image/png')
+    return Response(output.getvalue(), mimetype='image/png')
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
